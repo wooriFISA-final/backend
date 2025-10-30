@@ -1,0 +1,10 @@
+from sqlalchemy import Column, Integer, String
+from db.base import Base
+
+
+class Policy(Base):
+    __tablename__ = "policies"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(255), nullable=False)
+    content = Column(String(255))
