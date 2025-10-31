@@ -15,7 +15,7 @@ from schemas.member_schema import MemberPublic
 from crud import member_crud
 
 router = APIRouter(tags=["login"])
-ACCESS_TOKEN_EXPIRE_MINUTES = 360*24*7  # 1시간 * 24 * 7 -> 총 7일
+ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 1시간 * 24 * 7 -> 총 7일
 
 
 @router.post("/login/access-token")

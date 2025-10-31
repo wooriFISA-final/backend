@@ -26,7 +26,7 @@ class MemberPublic(MemberBase):
 
 
 # 멤버 리스트
-class MembersPublic():
+class MembersPublic(SQLModel):
     data: list[MemberPublic]
     count: int
 
