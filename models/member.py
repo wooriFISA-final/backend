@@ -26,5 +26,4 @@ class Member(Base):
     currency = Column(String(20))
     salary = Column(Integer)
     invest_tendency = Column(Enum(InvestTendency))
-    is_active = Column(Boolean, default=True)
     is_superuser = Column(Boolean, default=False)
