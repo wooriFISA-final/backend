@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Enum
-from db.base import Base
+from app.db.base import Base
 import enum
 
 

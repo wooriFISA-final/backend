@@ -1,5 +1,5 @@
 # 각 api 실행을 위한 의존성(dependency)을 관리하는 파일
-from db.session import SessionLocal
+from app.db.session import SessionLocal
 from collections.abc import Generator
 from typing import Annotated
 from sqlmodel import Session
@@ -11,9 +11,9 @@ from fastapi.security import OAuth2PasswordBearer
 
 from pydantic import ValidationError
 from dotenv import load_dotenv
-from models.member import Member
-from core import security
-from schemas.token_schema import Token, TokenPayload
+from app.models.member import Member
+from app.core import security
+from app.schemas.token_schema import Token, TokenPayload
 import os
 
 load_dotenv()

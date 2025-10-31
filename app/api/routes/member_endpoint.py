@@ -4,15 +4,15 @@ from typing import Any
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import col, delete, func, select
 
-from crud import member_crud
-from api.deps import (
+from app.crud import member_crud
+from app.api.deps import (
     CurrentMember,
     SessionDep,
     get_current_active_superuser
 )
-from core.security import get_password_hash, verify_password
-from models import Member
-from schemas.member_schema import MembersPublic, MemberPublic, MemberCreate, MemberRegister
+from app.core.security import get_password_hash, verify_password
+from app.models import Member
+from app.schemas.member_schema import MembersPublic, MemberPublic, MemberCreate, MemberRegister
 
 router = APIRouter(prefix="/members", tags=["members"])
 

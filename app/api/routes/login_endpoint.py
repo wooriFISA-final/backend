@@ -6,13 +6,13 @@ from fastapi.responses import HTMLResponse
 from fastapi.security import OAuth2PasswordRequestForm
 
 from app import crud
-from deps import CurrentMember, SessionDep, get_current_active_superuser
-from core import security
-from core.security import get_password_hash
-from schemas.global_schema import Message
-from schemas.token_schema import Token
-from schemas.member_schema import MemberPublic
-from crud import member_crud
+from app.api.deps import CurrentMember, SessionDep, get_current_active_superuser
+from app.core import security
+from app.core.security import get_password_hash
+from app.schemas.global_schema import Message
+from app.schemas.token_schema import Token
+from app.schemas.member_schema import MemberPublic
+from app.crud import member_crud
 
 router = APIRouter(tags=["login"])
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 1시간 * 24 * 7 -> 총 7일

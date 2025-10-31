@@ -2,9 +2,9 @@ from typing import Any
 
 from sqlmodel import Session, select
 
-from core.security import get_password_hash, verify_password
-from models import Member
-from schemas.member_schema import MemberCreate, MemberUpdate
+from app.core.security import get_password_hash, verify_password
+from app.models import Member
+from app.schemas.member_schema import MemberCreate
 
 
 def create_member(*, session: Session, member_create: MemberCreate) -> Member:
