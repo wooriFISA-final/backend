@@ -28,7 +28,7 @@ def get_db() -> Generator[Session, None, None]:
     """
     db 조작을 위한 로컬 세션을 생성, 역할이 끝나면 종료하는 함수
     """
-    db = SessionLocal
+    db = SessionLocal()
     try:
         yield db
     finally:

@@ -65,18 +65,18 @@ def read_users(session: SessionDep, skip: int = 0, limit: int = 100) -> Any:
 
 
 @router.post("/signup", response_model=MemberPublic)
-def register_user(session: SessionDep, user_in: MemberRegister) -> Any:
+def register_user(session: SessionDep, member_in: MemberRegister) -> Any:
     """
     슈퍼유저 로그인 없이 회원가입 하게 하기
     """
-    member = member_crud.get_member_by_email(session=session, email=user_in.email)
+    member = member_crud.get_member_by_email(session=session, email=member_in.email)
     if member:
         raise HTTPException(
             status_code=400,
             detail="해당 e-mail로 가입된 이용자가 이미 있습니다.",
         )
-    member_create = MemberCreate.model_validate(user_in)
-    member = member_crud.create_member(session=session, user_create=member_create)
+    member_create = MemberCreate.model_validate(member_in)
+    member = member_crud.create_member(session=session, member_create=member_create)
     return member
 
 

@@ -21,7 +21,7 @@ def create_member(*, session: Session, member_create: MemberCreate) -> Member:
 
 def get_member_by_email(*, session: Session, email: str) -> Member | None:
     statement = select(Member).where(Member.email == email)
-    session_user = session.exec(statement).first()
+    session_user = session.execute(statement).scalars().first()
     return session_user
 
 
