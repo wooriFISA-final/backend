@@ -7,7 +7,7 @@ from datetime import datetime
 class MyProduct(Base):
     __tablename__ = "my_products"
 
-    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, primary_key=True, index=True)
     plan_id = Column(Integer, ForeignKey("plans.id"), nullable=False)
     product_id = Column(Integer, ForeignKey("products.id"), nullable=False)
     current_value = Column(Integer)
