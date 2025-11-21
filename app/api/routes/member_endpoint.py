@@ -12,7 +12,8 @@ from app.api.deps import (
 )
 from app.core.security import get_password_hash, verify_password
 from app.models import Member
-from app.schemas.member_schema import MembersPublic, MemberPublic, MemberCreate, MemberRegister
+from app.schemas.member_schema import MembersPublic, MemberPublic, MemberCreate, MemberRegister, MemberRead
+
 
 router = APIRouter(prefix="/members", tags=["members"])
 
@@ -35,6 +36,15 @@ def read_users(session: SessionDep, skip: int = 0, limit: int = 100) -> Any:
     users = session.exec(statement).all()
 
     return MembersPublic(data=users, count=count)
+
+@router.get("/me", response_model=MemberRead)
+def get_current_member(
+    current_member: CurrentMember,
+):
+    """
+    현재 로그인한 사용자 정보 반환
+    """
+    return current_member
 
 
 # @router.post(
@@ -96,4 +106,3 @@ def read_user_by_id(
             detail="관리자를 조회하기 위한 권한이 없습니다.",
         )
     return member
-

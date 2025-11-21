@@ -1,14 +1,16 @@
-# app/models/report.py
+# backend/app/models/report.py
 from datetime import datetime
+
 from sqlalchemy import (
     Column,
     BigInteger,
-    String,
-    Text,
     DateTime,
+    Text,
+    String,
     ForeignKey,
-    JSON,
+    DECIMAL,
 )
+from sqlalchemy.dialects.mysql import JSON  # ✅ MySQL JSON 타입
 from sqlalchemy.orm import relationship
 
 from app.db.base import Base
@@ -17,30 +19,32 @@ from app.db.base import Base
 class Report(Base):
     __tablename__ = "reports"
 
-    # MySQL: report_id BIGINT PRIMARY KEY
-    report_id = Column(BigInteger, primary_key=True, index=True)
+    report_id = Column(BigInteger, primary_key=True, index=True, autoincrement=True)
+    user_id = Column(BigInteger, ForeignKey("members.user_id"), nullable=False)
+    create_at = Column(DateTime, nullable=False, default=datetime.utcnow)
 
-    # MySQL: user_id BIGINT NOT NULL REFERENCES members(user_id)
-    user_id = Column(
-        BigInteger,
-        ForeignKey("members.id"),   # ⚠ Member.user_id 이 있다고 가정
-        nullable=False,
-        index=True,
-    )
+    # 1) 소비 분석 결과
+    consume_report = Column(Text)               # TEXT
+    cluster_nickname = Column(String(100))      # VARCHAR(100)
+    consume_analysis_summary = Column(JSON)     # JSON
+    
+    spend_chart_json = Column(JSON)
 
-    # MySQL 컬럼 이름이 create_at 이고,
-    # 파이썬 코드에서는 created_at 으로 쓰고 싶다면 이렇게 매핑:
-    created_at = Column("created_at", DateTime, default=datetime.utcnow)
+    # 2) 프로필 변동 사항
+    change_analysis_report = Column(Text)       # TEXT
+    change_raw_changes = Column(JSON)          # JSON 배열
 
-    # 요약 텍스트
-    summarize = Column(Text, nullable=True)
+    # 3) 투자 수익 분석
+    profit_analysis_report = Column(Text)       # TEXT
+    net_profit = Column(BigInteger)            # BIGINT
+    profit_rate = Column(DECIMAL(10, 4))       # DECIMAL(10,4)
 
-    # 추가 리포트 정보들 (NULL 허용)
-    spend_chart_json = Column(JSON, nullable=True)
-    spend_analysis_text = Column(Text, nullable=True)
-    policy_changes = Column(Text, nullable=True)
-    summary_3lines = Column(String(512), nullable=True)
-    user_info_changes = Column(Text, nullable=True)
+    # 4) 정책 변동 사항
+    policy_analysis_report = Column(Text)       # TEXT
+    policy_changes = Column(JSON)              # JSON
 
-    # Member와의 관계
+    # 5) 최종 통합 요약
+    threelines_summary = Column(Text)          # TEXT
+
+    # 관계 (선택)
     member = relationship("Member", backref="reports")

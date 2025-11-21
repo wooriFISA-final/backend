@@ -1,5 +1,5 @@
 from sqlmodel import Field, Relationship, SQLModel
-from pydantic import EmailStr
+from pydantic import EmailStr, BaseModel
 
 
 # 공통 속성
@@ -29,5 +29,11 @@ class MemberPublic(MemberBase):
 class MembersPublic(SQLModel):
     data: list[MemberPublic]
     count: int
+    
+class MemberRead(BaseModel):
+    id: int
+    name: str
+    email: str | None = None
 
-
+    class Config:
+        orm_mode = True

@@ -14,7 +14,7 @@ class Plan(Base):
     __tablename__ = "plans"
 
     id = Column(Integer, primary_key=True, index=True)
-    member_id = Column(Integer, ForeignKey("members.id"), nullable=False)
+    member_id = Column(Integer, ForeignKey("members.user_id"), nullable=False)
     loan_amount = Column(Integer)
     target_self_capital = Column(Integer)
     target_price_fund = Column(Integer)
