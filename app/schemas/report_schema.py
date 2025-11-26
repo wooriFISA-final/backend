@@ -1,9 +1,16 @@
-# backend/app/schemas/report_schema.py
 from datetime import datetime
 from typing import Any, Optional, Dict, List
+from pydantic import BaseModel, ConfigDict # ConfigDict 임포트 필요 (Pydantic V2 대응)
 
-from pydantic import BaseModel
+# 🚨 ChartDataArray 스키마 추가
+class ChartDataArray(BaseModel):
+    category: str
+    amount: int
+    
+    # Pydantic V2 대응
+    model_config = ConfigDict(from_attributes=True) 
 
+# ------------------------------------------------------------------
 
 class ReportBase(BaseModel):
     # 1) 소비 분석 결과
@@ -11,11 +18,12 @@ class ReportBase(BaseModel):
     cluster_nickname: Optional[str] = None
     consume_analysis_summary: Optional[Dict[str, Any]] = None  # JSON_OBJECT
     
-    spend_chart_json: Optional[Dict[str, Any]] = None
+    # 🚨 이 부분을 List[ChartDataArray]로 수정합니다.
+    spend_chart_json: Optional[List[ChartDataArray]] = None 
 
     # 2) 프로필 변동 사항
     change_analysis_report: Optional[str] = None
-    change_raw_changes: Optional[List[str]] = None             # JSON_ARRAY
+    change_raw_changes: Optional[List[str]] = None
 
     # 3) 투자 수익 분석
     profit_analysis_report: Optional[str] = None
@@ -24,7 +32,7 @@ class ReportBase(BaseModel):
 
     # 4) 정책 변동 사항
     policy_analysis_report: Optional[str] = None
-    policy_changes: Optional[List[dict]] = None                # JSON 배열
+    policy_changes: Optional[List[dict]] = None
 
     # 5) 최종 통합 요약
     threelines_summary: Optional[str] = None
@@ -33,7 +41,10 @@ class ReportBase(BaseModel):
 class ReportRead(ReportBase):
     report_id: int
     user_id: int
-    create_at: datetime        # ✅ 모델/DB랑 이름 맞추기
+    create_at: datetime
 
     class Config:
-        orm_mode = True        # ✅ SQLAlchemy 객체 → 자동 변환
+        orm_mode = True        # 🚨 (Pydantic V1 스타일)
+        
+    # 🚨 Pydantic V2에서는 아래를 사용합니다 (Config: orm_mode 대신)
+    # model_config = ConfigDict(from_attributes=True)
