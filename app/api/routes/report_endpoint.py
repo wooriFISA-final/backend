@@ -18,18 +18,18 @@ router = APIRouter(
 @router.get("/", response_model=List[ReportRead])
 def list_reports(
     db: SessionDep,
-    current_member: CurrentMember,
+    # current_member: CurrentMember,  # 🚨 임시로 비활성화
 ):
     # 🚨 1. 요청 도착 및 함수 진입 확인
     print("\n========================================================")
     print(f"[DEBUG:R-LIST] 1. list_reports 요청 도착: {datetime.now().strftime('%H:%M:%S')}") 
-    print(f"[DEBUG:R-LIST] 2. 인증 완료. 사용자 ID: {current_member.id}") 
+    # print(f"[DEBUG:R-LIST] 2. 인증 완료. 사용자 ID: {current_member.id}")  # 🚨 임시로 비활성화
     print("========================================================")
     
     try:
         stmt = (
             select(Report)
-            .where(Report.user_id == current_member.id)
+            # .where(Report.user_id == current_member.id)  # 🚨 임시로 비활성화 - 모든 리포트 조회
             .order_by(Report.create_at.desc())
         )
         

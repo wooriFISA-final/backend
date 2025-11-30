@@ -18,14 +18,15 @@ class ReportBase(BaseModel):
     # 1) 소비 분석 결과
     consume_report: Optional[str] = None
     cluster_nickname: Optional[str] = None
-    consume_analysis_summary: Optional[Dict[str, Any]] = None  # JSON_OBJECT
+    # 🚨 문자열도 허용 (DB에 문자열로 저장된 경우 대응)
+    consume_analysis_summary: Optional[Dict[str, Any] | str] = None
     
-    # 🚨 이 부분을 List[ChartDataArray]로 수정합니다.
-    spend_chart_json: Optional[List[ChartDataArray]] = None 
+    # 🚨 문자열도 허용 (DB에 문자열로 저장된 경우 대응)
+    spend_chart_json: Optional[List[ChartDataArray] | str] = None
 
     # 2) 프로필 변동 사항
     change_analysis_report: Optional[str] = None
-    change_raw_changes: Optional[List[str]] = None
+    change_raw_changes: Optional[List[str] | str] = None
 
     # 3) 투자 수익 분석
     profit_analysis_report: Optional[str] = None
@@ -34,7 +35,7 @@ class ReportBase(BaseModel):
 
     # 4) 정책 변동 사항
     policy_analysis_report: Optional[str] = None
-    policy_changes: Optional[List[dict]] = None
+    policy_changes: Optional[List[dict] | str] = None
 
     # 5) 최종 통합 요약
     threelines_summary: Optional[str] = None
