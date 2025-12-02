@@ -7,7 +7,7 @@ from pydantic import BaseModel, ConfigDict # ConfigDict 임포트 필요 (Pydant
 # 🚨 ChartDataArray 스키마 추가
 class ChartDataArray(BaseModel):
     category: str
-    amount: int
+    amount: float
     
     # Pydantic V2 대응
     model_config = ConfigDict(from_attributes=True) 
@@ -22,7 +22,8 @@ class ReportBase(BaseModel):
     consume_analysis_summary: Optional[Dict[str, Any] | str] = None
     
     # 🚨 문자열도 허용 (DB에 문자열로 저장된 경우 대응)
-    spend_chart_json: Optional[List[ChartDataArray] | str] = None
+    # spend_chart_json: Optional[List[ChartDataArray] | str] = None
+    spend_chart_json: Optional[List[ChartDataArray]] = None
 
     # 2) 프로필 변동 사항
     change_analysis_report: Optional[str] = None
@@ -32,12 +33,12 @@ class ReportBase(BaseModel):
     profit_analysis_report: Optional[str] = None
     net_profit: Optional[int] = None
     profit_rate: Optional[float] = None
+    trend_chart_json: Optional[List[Dict[str, Any]] | str] = None  # 🆕 월별 투자 수익률 추이
+    fund_comparison_json: Optional[List[Dict[str, Any]] | str] = None  # 🆕 펀드 상품별 손익
 
     # 4) 정책 변동 사항
     policy_analysis_report: Optional[str] = None
-    policy_changes: Optional[List[dict] | str] = None
-
-    # 5) 최종 통합 요약
+    policy_changes: Optional[List[Any] | Dict[str, Any] | str] = None
     threelines_summary: Optional[str] = None
 
 
